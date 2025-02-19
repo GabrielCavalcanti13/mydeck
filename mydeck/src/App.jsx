@@ -1,15 +1,17 @@
 import React from "react";
-import Login from "./components/Login/Login";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import DeckCreator from "./components/DeckCreator/DeckCreator";
+import Login from "./components/Login/Login";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <h1>Trunfo Game</h1>
-      <Login />
-      <DeckCreator />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/decks/create" element={<DeckCreator />} />
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;

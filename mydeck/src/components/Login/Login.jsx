@@ -1,8 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { signInWithGoogle, logOut } from "../../services/authService";
 
 const Login = () => {
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      navigate("/decks/create");
+    }
+  }, [user, navigate]);
 
   const handleLogin = async () => {
     const userData = await signInWithGoogle();

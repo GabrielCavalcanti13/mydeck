@@ -8,7 +8,7 @@ const Login = () => {
 
   useEffect(() => {
     if (user) {
-      navigate("/decks/create");
+      navigate("/decks/show");
     }
   }, [user, navigate]);
 

@@ -21,3 +21,8 @@ export const addCardToDeck = async (deckId, card) => {
 export const deleteDeck = async (deckId) => {
   await deleteDoc(doc(db, "decks", deckId));
 };
+
+export const updateDeck = async (deckId, updatedData) => {
+  const deckRef = doc(db, "decks", deckId);
+  await updateDoc(deckRef, updatedData);
+};

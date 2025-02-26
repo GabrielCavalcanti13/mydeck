@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { getDecks, deleteDeck } from "../../services/deckService";
 
 const ShowDecks = () => {
   const [decks, setDecks] = useState([]);
+  const navigate = useNavigate();
 
   const handleDeleteDeck = async (deckId) => {
     await deleteDeck(deckId);
@@ -24,7 +26,8 @@ const ShowDecks = () => {
         {decks.map((deck) => (
           <li 
             key={deck.id}>{deck.name}
-            <button onClick={() => handleDeleteDeck(deck.id)}>Deletar</button>
+            <button onClick={() => handleDeleteDeck(deck.id)}>Delete</button>
+            <button onClick={() => navigate(`edit/${deck.id}`)}>Edit</button>
           </li>
         ))}
       </ul>

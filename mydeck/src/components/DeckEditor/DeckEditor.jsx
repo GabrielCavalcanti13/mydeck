@@ -10,15 +10,16 @@ const DeckEditor = () => {
 
   useEffect(() => {
     const fetchDeck = async () => {
-        const decks = await getDecks();
-        const selectedDeck = decks.find((d) => d.id === deckId);
-        if (selectedDeck) {
-          setDeck({ ...selectedDeck, cards: selectedDeck.cards || [] });
-        }
-      };      
-
+      const decks = await getDecks();
+      const selectedDeck = decks.find((d) => d.id === deckId);
+      if (selectedDeck) {
+        setDeck({ ...selectedDeck, cards: selectedDeck.cards || [] });
+      }
+    };
+  
     if (deckId) fetchDeck();
   }, [deckId]);
+  
 
   const handleNameChange = (e) => {
     setDeck({ ...deck, name: e.target.value });
@@ -41,7 +42,7 @@ const DeckEditor = () => {
     setNewCard("");
   };
 
-  if (!deck) return <p>Carregando...</p>;
+  if (!deck) return <p>Nenhum deck encontrado.</p>;
 
   return (
     <div>

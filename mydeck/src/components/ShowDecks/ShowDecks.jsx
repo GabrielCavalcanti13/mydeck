@@ -31,6 +31,7 @@ const ShowDecks = () => {
           </li>
         ))}
       </ul>
+      <button onClick={() => navigate(`/decks/create`)}>New Deck</button>
     </div>
   );
 };

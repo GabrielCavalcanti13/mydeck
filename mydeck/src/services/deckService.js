@@ -1,9 +1,9 @@
 import { db } from "../firebaseConfig";
 import { collection, addDoc, getDocs, doc, deleteDoc, updateDoc, arrayUnion } from "firebase/firestore";
 
-export const createDeck = async (name) => {
-  const docRef = await addDoc(collection(db, "decks"), { name, cards: [] });
-  return docRef.id;
+export const createDeck = async ({ name, attributes }) => {
+  const docRef = await addDoc(collection(db, "decks"), { name, attributes, cards: [] });
+  return { id: docRef.id, name, attributes, cards: [] };
 };
 
 export const getDecks = async () => {

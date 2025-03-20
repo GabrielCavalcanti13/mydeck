@@ -74,6 +74,9 @@ const DeckEditor = () => {
   // Mostrar uma mensagem de carregamento se o deck ainda não estiver carregado
   if (!deck) return <p>Carregando deck...</p>;
 
+
+  console.log(deck);
+
   return (
     <div>
       <button onClick={() => navigate("/decks/show")}>Voltar</button>
@@ -81,16 +84,19 @@ const DeckEditor = () => {
 
       <label>
         Nome do Deck:
-        <input type="text" value={deck.name} onChange={handleNameChange} />
+        <input type="text" value={deck.name.name || deck.name} onChange={handleNameChange} />
         <button onClick={handleSaveName}>Salvar</button>
       </label>
 
       <h3>Atributos do Deck</h3>
       <ul>
-        {deck?.attributes?.map((attr, index) => (
-          <li key={index}>{attr}</li>
-        ))}
+        {Array.isArray(deck.attributes) ? (
+          deck.attributes.map((attr, index) => <li key={index}>{attr}</li>)
+        ) : (
+          <p>Nenhum atributo encontrado</p>
+        )}
       </ul>
+
 
       <h3>Cartas</h3>
       <div className="cards-container">
@@ -102,18 +108,6 @@ const DeckEditor = () => {
       <h3>Adicionar Nova Carta</h3>
       <input type="text" value={newCard.name} onChange={(e) => setNewCard({ ...newCard, name: e.target.value })} placeholder="Nome da carta" />
       <input type="text" value={newCard.image} onChange={(e) => setNewCard({ ...newCard, image: e.target.value })} placeholder="URL da imagem" />
-
-      <h4>Atributos</h4>
-      {deck?.attributes?.map((attr, index) => (
-        <div key={index}>
-          <label>{attr}</label>
-          <input
-            type="number"
-            value={newCard.values[index] || ""}
-            onChange={(e) => handleAttributeChange(index, e.target.value)}  // Atualiza o valor do atributo
-          />
-        </div>
-      ))}
 
       <button onClick={handleAddCard}>Adicionar Carta</button>
     </div>

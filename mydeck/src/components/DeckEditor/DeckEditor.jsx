@@ -7,9 +7,8 @@ const DeckEditor = () => {
   const { deckId } = useParams();
   const navigate = useNavigate();
   const [deck, setDeck] = useState(null);
-  const [newCard, setNewCard] = useState({ name: "", image: "", values: [] });
+  const [newCard, setNewCard] = useState({ name: "", imageFile: null, values: [] });
 
-  // Carregar o deck ao inicializar
   useEffect(() => {
     const fetchDeck = async () => {
       const decks = await getDecks();
@@ -19,7 +18,7 @@ const DeckEditor = () => {
         setNewCard({
           name: "",
           image: "",
-          values: new Array(selectedDeck?.attributes?.length || 3).fill("")  // Preencher os valores com base nos atributos do deck
+          values: new Array(selectedDeck?.attributes?.length || 3).fill("")
         });
       }
     };
@@ -27,7 +26,6 @@ const DeckEditor = () => {
     if (deckId) fetchDeck();
   }, [deckId]);
 
-  // Função para atualizar o nome do deck
   const handleNameChange = (e) => {
     setDeck((prevDeck) => ({ ...prevDeck, name: e.target.value }));
   };
@@ -39,43 +37,44 @@ const DeckEditor = () => {
     }
   };
 
-  // Função para adicionar uma nova carta ao deck
-  const handleAddCard = async () => {
-    if (!newCard.name.trim() || !newCard.image.trim()) return;
+  const handleAddCard = async (event) => {
+    event.preventDefault();
 
-    const card = {
-      name: newCard.name,
-      image: newCard.image,
-      values: newCard.values.map(v => parseInt(v) || 0) // Garantir que os valores sejam numéricos
+    if (!newCard.name.trim() || !newCard.imageFile) return;
+
+    const reader = new FileReader();
+    reader.readAsDataURL(newCard.imageFile);
+    reader.onloadend = async () => {
+      const base64String = reader.result; // Converte a imagem para Base64
+
+      const card = {
+        name: newCard.name,
+        image: base64String, // Armazena a imagem em Base64 no Firestore
+        values: newCard.values.map((v) => parseInt(v) || 0),
+      };
+
+      await addCardToDeck(deck.id, card);
+
+      setDeck((prevDeck) => ({
+        ...prevDeck,
+        cards: [...(prevDeck?.cards || []), card],
+      }));
+
+      setNewCard({
+        name: "",
+        imageFile: null, // Resetando a imagem
+        values: new Array(deck?.attributes?.length || 3).fill(""),
+      });
     };
-
-    await addCardToDeck(deck.id, card);
-
-    setDeck((prevDeck) => ({
-      ...prevDeck,
-      cards: [...(prevDeck?.cards || []), card],
-    }));
-
-    // Resetar o estado da nova carta
-    setNewCard({
-      name: "",
-      image: "",
-      values: new Array(deck?.attributes?.length || 3).fill("")  // Resetar os valores dos atributos ao adicionar uma nova carta
-    });
   };
 
-  // Função para lidar com a mudança nos valores dos atributos
   const handleAttributeChange = (index, value) => {
     const updatedValues = [...newCard.values];
     updatedValues[index] = value;
     setNewCard({ ...newCard, values: updatedValues });
   };
 
-  // Mostrar uma mensagem de carregamento se o deck ainda não estiver carregado
   if (!deck) return <p>Carregando deck...</p>;
-
-
-  console.log(deck);
 
   return (
     <div>
@@ -84,7 +83,7 @@ const DeckEditor = () => {
 
       <label>
         Nome do Deck:
-        <input type="text" value={deck.name.name || deck.name} onChange={handleNameChange} />
+        <input type="text" value={deck.name} onChange={handleNameChange} />
         <button onClick={handleSaveName}>Salvar</button>
       </label>
 
@@ -97,7 +96,6 @@ const DeckEditor = () => {
         )}
       </ul>
 
-
       <h3>Cartas</h3>
       <div className="cards-container">
         {deck?.cards?.map((card, index) => (
@@ -106,8 +104,17 @@ const DeckEditor = () => {
       </div>
 
       <h3>Adicionar Nova Carta</h3>
-      <input type="text" value={newCard.name} onChange={(e) => setNewCard({ ...newCard, name: e.target.value })} placeholder="Nome da carta" />
-      <input type="text" value={newCard.image} onChange={(e) => setNewCard({ ...newCard, image: e.target.value })} placeholder="URL da imagem" />
+      <input
+        type="text"
+        value={newCard.name}
+        onChange={(e) => setNewCard({ ...newCard, name: e.target.value })}
+        placeholder="Nome da carta"
+      />
+      <input
+        type="file"
+        accept="image/*"
+        onChange={(e) => setNewCard({ ...newCard, imageFile: e.target.files[0] })}
+      />
 
       <button onClick={handleAddCard}>Adicionar Carta</button>
     </div>

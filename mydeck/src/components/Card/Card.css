@@ -1,0 +1,74 @@
+.card-container {
+    position: relative;
+    width: 250px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    text-align: center;
+    background-color: #fff;
+    transition: transform 0.2s ease;
+    overflow: hidden;
+  }
+  
+  .card-container:hover {
+    transform: scale(1.03);
+  }
+  
+  .card-container img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 12px;
+  }
+  
+  .card-container h2 {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+  }
+  
+  .attributes-container {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 0.95rem;
+  }
+  
+  .attributes-container div {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  /* Botão de deletar */
+  .delete-button {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background-color: rgba(255, 0, 0, 0.8);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    font-size: 16px;
+    display: none;
+    cursor: pointer;
+    z-index: 10;
+  }
+  
+  .card-container:hover .delete-button {
+    display: block;
+  }
+  
+  /* Remove setinhas de input type="number" (caso use em algum lugar) */
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+  

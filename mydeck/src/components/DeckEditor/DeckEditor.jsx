@@ -74,6 +74,18 @@ const DeckEditor = () => {
     setNewCard({ ...newCard, values: updatedValues });
   };
 
+  const handleDeleteCard = async (indexToDelete) => {
+    const updatedCards = deck.cards.filter((_, i) => i !== indexToDelete);
+  
+    await updateDeck(deck.id, { cards: updatedCards });
+  
+    setDeck((prevDeck) => ({
+      ...prevDeck,
+      cards: updatedCards,
+    }));
+  };
+  
+
   if (!deck) return <p>Carregando deck...</p>;
 
   return (
@@ -98,9 +110,17 @@ const DeckEditor = () => {
 
       <h3>Cartas</h3>
       <div className="cards-container">
-        {deck?.cards?.map((card, index) => (
-          <Card key={index} name={card.name} image={card.image} attributes={deck.attributes} values={card.values} />
-        ))}
+      {deck?.cards?.map((card, index) => (
+        <Card
+          key={index}
+          name={card.name}
+          image={card.image}
+          attributes={deck.attributes}
+          values={card.values}
+          onDelete={() => handleDeleteCard(index)}
+        />
+      ))}
+
       </div>
 
       <h3>Adicionar Nova Carta</h3>
@@ -115,7 +135,19 @@ const DeckEditor = () => {
         accept="image/*"
         onChange={(e) => setNewCard({ ...newCard, imageFile: e.target.files[0] })}
       />
-
+      {deck.attributes.map((attr, index) => (
+        <div key={index}>
+          <label>
+            {attr}:{" "}
+            <input
+              type="number"
+              value={newCard.values[index]}
+              onChange={(e) => handleAttributeChange(index, e.target.value)}
+              placeholder={`${attr}`}
+            />
+          </label>
+        </div>
+        ))}
       <button onClick={handleAddCard}>Adicionar Carta</button>
     </div>
   );

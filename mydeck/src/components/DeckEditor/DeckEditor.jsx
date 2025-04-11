@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getDecks, updateDeck, addCardToDeck } from "../../services/deckService";
 import Card from "../Card/Card";
+import "./DeckEditor.css";
+
 
 const DeckEditor = () => {
   const { deckId } = useParams();
@@ -89,7 +91,7 @@ const DeckEditor = () => {
   if (!deck) return <p>Carregando deck...</p>;
 
   return (
-    <div>
+    <div className="deck-editor-container">
       <button onClick={() => navigate("/decks/show")}>Voltar</button>
       <h2>Editor de Deck</h2>
 

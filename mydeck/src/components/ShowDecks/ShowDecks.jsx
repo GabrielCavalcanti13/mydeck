@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { getDecks, deleteDeck } from "../../services/deckService";
 
 const ShowDecks = () => {
@@ -25,7 +25,10 @@ const ShowDecks = () => {
       <ul>
         {decks.map((deck) => (
           <li 
-            key={deck.id}>{deck.name.name || deck.name}
+            key={deck.id}>
+            <Link to={`/deck/${deck.id}`}>
+              {deck.name.name || deck.name}
+            </Link>
             <button onClick={() => handleDeleteDeck(deck.id)}>Delete</button>
             <button onClick={() => navigate(`/edit/${deck.id}`)}>Edit</button>
           </li>

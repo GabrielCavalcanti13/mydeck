@@ -9,6 +9,7 @@ const DeckEditor = () => {
   const { deckId } = useParams();
   const navigate = useNavigate();
   const [deck, setDeck] = useState(null);
+  const [editedCards, setEditedCards] = useState([]);
   const [newCard, setNewCard] = useState({ name: "", imageFile: null, values: [] });
 
   useEffect(() => {
@@ -16,6 +17,7 @@ const DeckEditor = () => {
       const decks = await getDecks();
       const selectedDeck = decks.find((d) => d.id === deckId);
       if (selectedDeck) {
+        setEditedCards(selectedDeck.cards || []);
         setDeck(selectedDeck);
         setNewCard({
           name: "",
@@ -32,6 +34,18 @@ const DeckEditor = () => {
     setDeck((prevDeck) => ({ ...prevDeck, name: e.target.value }));
   };
 
+  const handleCardAttributeChange = (cardIndex, attrIndex, value) => {
+    const updated = [...editedCards];
+    updated[cardIndex].values[attrIndex] = parseInt(value) || 0;
+    setEditedCards(updated);
+  };
+  
+  const handleSaveEditedCards = async () => {
+    await updateDeck(deck.id, { cards: editedCards });
+    setDeck((prev) => ({ ...prev, cards: editedCards }));
+    alert("Cartas atualizadas!");
+  };  
+
   const handleSaveName = async () => {
     if (deck) {
       await updateDeck(deck.id, { name: deck.name });
@@ -47,11 +61,11 @@ const DeckEditor = () => {
     const reader = new FileReader();
     reader.readAsDataURL(newCard.imageFile);
     reader.onloadend = async () => {
-      const base64String = reader.result; // Converte a imagem para Base64
+      const base64String = reader.result; 
 
       const card = {
         name: newCard.name,
-        image: base64String, // Armazena a imagem em Base64 no Firestore
+        image: base64String, 
         values: newCard.values.map((v) => parseInt(v) || 0),
       };
 
@@ -64,7 +78,7 @@ const DeckEditor = () => {
 
       setNewCard({
         name: "",
-        imageFile: null, // Resetando a imagem
+        imageFile: null,
         values: new Array(deck?.attributes?.length || 3).fill(""),
       });
     };
@@ -120,8 +134,13 @@ const DeckEditor = () => {
           attributes={deck.attributes}
           values={card.values}
           onDelete={() => handleDeleteCard(index)}
+          isEditable={true}
+          onChange={(attrIndex, value) => handleCardAttributeChange(index, attrIndex, value)}
         />
       ))}
+
+      <button onClick={handleSaveEditedCards}>Salvar Alterações nas Cartas</button>
+
 
       </div>
 

@@ -116,14 +116,65 @@ const DeckEditor = () => {
       </label>
 
       <h3>Atributos do Deck</h3>
-      <ul>
-        {Array.isArray(deck.attributes) ? (
-          deck.attributes.map((attr, index) => <li key={index}>{attr}</li>)
-        ) : (
-          <p>Nenhum atributo encontrado</p>
-        )}
-      </ul>
+      {deck.attributes.map((attr, index) => (
+        <div key={index} style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+          <input
+            type="text"
+            value={attr}
+            onChange={(e) => {
+              const newAttributes = [...deck.attributes];
+              newAttributes[index] = e.target.value;
+              setDeck((prevDeck) => ({ ...prevDeck, attributes: newAttributes }));
+            }}
+          />
+          {deck.attributes.length > 3 && (
+            <button
+              type="button"
+              onClick={() => {
+                const newAttributes = deck.attributes.filter((_, i) => i !== index);
+                const newCards = editedCards.map((card) => ({
+                  ...card,
+                  values: card.values.filter((_, i) => i !== index),
+                }));
+                setDeck((prevDeck) => ({ ...prevDeck, attributes: newAttributes }));
+                setEditedCards(newCards);
+              }}
+            >
+              Remover
+            </button>
+          )}
+        </div>
+      ))}
 
+      {deck.attributes.length < 5 && (
+        <button
+          type="button"
+          onClick={() => {
+            const newAttributes = [...deck.attributes, "Novo Atributo"];
+            const newCards = editedCards.map((card) => ({
+              ...card,
+              values: [...card.values, 0],
+            }));
+            setDeck((prevDeck) => ({ ...prevDeck, attributes: newAttributes }));
+            setEditedCards(newCards);
+          }}
+        >
+          Adicionar Atributo
+        </button>
+      )}
+
+      <button
+        onClick={async () => {
+          await updateDeck(deck.id, {
+            attributes: deck.attributes,
+            cards: editedCards,
+          });
+          alert("Atributos atualizados!");
+        }}
+      >
+        Salvar Atributos
+      </button>
+      
       <h3>Cartas</h3>
       <div className="cards-container">
       {deck?.cards?.map((card, index) => (

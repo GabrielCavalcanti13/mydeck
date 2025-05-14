@@ -16,12 +16,16 @@ const Card = ({ name, image, attributes, values, onDelete, onChange, isEditable 
           <div key={index}>
             <label>
               {attr}:{" "}
-              <input
-                type="number"
-                value={values[index] === undefined ? "" : values[index]}
-                onChange={(e) => onChange(index, e.target.value)}
-                placeholder={`${attr}`}
-              />
+              {isEditable ? (
+                <input
+                  type="number"
+                  value={values[index] === undefined ? "" : values[index]}
+                  onChange={(e) => onChange(index, e.target.value)}
+                  placeholder={`${attr}`}
+                />
+              ) : (
+                <span>{values[index]}</span> // Apenas exibe o valor sem permitir edição
+              )}
             </label>
           </div>
         ))}

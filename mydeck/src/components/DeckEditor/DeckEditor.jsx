@@ -36,9 +36,9 @@ const DeckEditor = () => {
 
   const handleCardAttributeChange = (cardIndex, attrIndex, value) => {
     const updated = [...editedCards];
-    updated[cardIndex].values[attrIndex] = parseInt(value) || 0;
+    updated[cardIndex].values[attrIndex] = value === "" ? "" : parseInt(value) || 0; // Se estiver vazio, mantém vazio
     setEditedCards(updated);
-  };
+  };  
   
   const handleSaveEditedCards = async () => {
     await updateDeck(deck.id, { cards: editedCards });
@@ -86,7 +86,7 @@ const DeckEditor = () => {
 
   const handleAttributeChange = (index, value) => {
     const updatedValues = [...newCard.values];
-    updatedValues[index] = value;
+    updatedValues[index] = value === "" ? "" : value;
     setNewCard({ ...newCard, values: updatedValues });
   };
 

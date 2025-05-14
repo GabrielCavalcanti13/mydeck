@@ -14,16 +14,15 @@ const Card = ({ name, image, attributes, values, onDelete, onChange, isEditable 
       <div className="attributes-container">
         {attributes.map((attr, index) => (
           <div key={index}>
-            <span className="font-semibold">{attr}:</span>
-            {isEditable ? (
+            <label>
+              {attr}:{" "}
               <input
                 type="number"
-                value={values[index]}
+                value={values[index] === undefined ? "" : values[index]}
                 onChange={(e) => onChange(index, e.target.value)}
+                placeholder={`${attr}`}
               />
-            ) : (
-              <span>{values[index]}</span>
-            )}
+            </label>
           </div>
         ))}
       </div>

@@ -36,22 +36,43 @@ const DeckEditor = () => {
 
   const handleCardAttributeChange = (cardIndex, attrIndex, value) => {
     const updated = [...editedCards];
-    updated[cardIndex].values[attrIndex] = value === "" ? "" : parseInt(value) || 0; // Se estiver vazio, mantém vazio
+    updated[cardIndex].values[attrIndex] = value === "" ? "" : parseInt(value) || 0;
     setEditedCards(updated);
   };  
   
   const handleSaveEditedCards = async () => {
-    await updateDeck(deck.id, { cards: editedCards });
-    setDeck((prev) => ({ ...prev, cards: editedCards }));
-    alert("Cartas atualizadas!");
-  };  
-
+    await updateDeck(deck.id, {
+      attributes: deck.attributes,
+      cards: editedCards,
+    });
+  
+    alert("Deck atualizado com sucesso!");
+  };
+   
   const handleSaveName = async () => {
     if (deck) {
       await updateDeck(deck.id, { name: deck.name });
       alert("Nome do deck atualizado!");
     }
   };
+
+  const handleRemoveAttribute = (attrIndexToRemove) => {
+    const newAttributes = deck.attributes.filter((_, i) => i !== attrIndexToRemove);
+  
+    const updatedCards = (deck.cards || []).map((card) => ({
+      ...card,
+      values: card.values.filter((_, i) => i !== attrIndexToRemove),
+    }));
+  
+    setDeck((prevDeck) => ({
+      ...prevDeck,
+      attributes: newAttributes,
+      cards: updatedCards,
+    }));
+  
+    setEditedCards(updatedCards);
+  };
+    
 
   const handleAddCard = async (event) => {
     event.preventDefault();
@@ -130,15 +151,7 @@ const DeckEditor = () => {
           {deck.attributes.length > 3 && (
             <button
               type="button"
-              onClick={() => {
-                const newAttributes = deck.attributes.filter((_, i) => i !== index);
-                const newCards = editedCards.map((card) => ({
-                  ...card,
-                  values: card.values.filter((_, i) => i !== index),
-                }));
-                setDeck((prevDeck) => ({ ...prevDeck, attributes: newAttributes }));
-                setEditedCards(newCards);
-              }}
+              onClick={() => {handleRemoveAttribute(index)}}
             >
               Remover
             </button>

@@ -24,7 +24,7 @@ const Card = ({ name, image, attributes, values, onDelete, onChange, isEditable 
                   placeholder={`${attr}`}
                 />
               ) : (
-                <span>{values[index]}</span> // Apenas exibe o valor sem permitir edição
+                <span>{values[index]}</span>
               )}
             </label>
           </div>

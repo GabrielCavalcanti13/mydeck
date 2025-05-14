@@ -1,44 +1,42 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { getDecks } from "../../services/deckService";
+import { useNavigate, Link } from "react-router-dom";
+import { getDecks, deleteDeck } from "../../services/deckService";
 
-const Deck = () => {
-  const { deckId } = useParams();
+const ShowDecks = () => {
+  const [decks, setDecks] = useState([]);
   const navigate = useNavigate();
-  const [deck, setDeck] = useState(null);
 
+  const handleDeleteDeck = async (deckId) => {
+    await deleteDeck(deckId);
+    setDecks((prevDecks) => prevDecks.filter((deck) => deck.id !== deckId));
+  };
+  
   useEffect(() => {
-    const fetchDeck = async () => {
-      const decks = await getDecks();
-      const selectedDeck = decks.find((d) => d.id === deckId);
-      if (selectedDeck) {
-        setDeck(selectedDeck);
-      }
+    const fetchDecks = async () => {
+      const decksData = await getDecks();
+      setDecks(decksData);
     };
-
-    if (deckId) fetchDeck();
-  }, [deckId]);
+    fetchDecks();
+  }, []);
 
   return (
     <div>
-      <h2>{deck?.name.name || deck?.name}</h2>
-      <button onClick={() => navigate(-1)}>Voltar</button>
-      {deck?.cards?.map((card, index) => (
-        <div key={index} className="card-container">
-          <img src={card.image} alt={card.name} />
-          <h3>{card.name}</h3>
-          <div className="attributes-container">
-            {deck?.attributes?.map((attr, attrIndex) => (
-              <div key={attrIndex}>
-                <label>{attr}: </label>
-                <span>{card.values[attrIndex]}</span> {/* Exibe o valor sem edição */}
-              </div>
-            ))}
-          </div>
-        </div>
-      ))}
+      <h2>Lista de Decks</h2>
+      <ul>
+        {decks.map((deck) => (
+          <li 
+            key={deck.id}>
+            <Link to={`/deck/${deck.id}`}>
+              {deck.name.name || deck.name}
+            </Link>
+            <button onClick={() => handleDeleteDeck(deck.id)}>Delete</button>
+            <button onClick={() => navigate(`/edit/${deck.id}`)}>Edit</button>
+          </li>
+        ))}
+      </ul>
+      <button onClick={() => navigate(`/decks/create`)}>New Deck</button>
     </div>
   );
 };
 
-export default Deck;
+export default ShowDecks;

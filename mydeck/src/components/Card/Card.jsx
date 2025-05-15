@@ -9,13 +9,12 @@ const Card = ({ name, image, attributes, values, onDelete, onChange, isEditable 
           ×
         </button>
       )}
-      <img src={image} alt={name} />
-      <h2>{name}</h2>
-      <div className="attributes-container">
-        {attributes.map((attr, index) => (
-          <div key={index}>
-            <label>
-              {attr}:{" "}
+      <div className="card-image-wrapper">
+        <img src={image} alt={name} />
+        <div className="attributes-overlay">
+          {attributes.map((attr, index) => (
+            <label key={index}>
+              {attr}:
               {isEditable ? (
                 <input
                   type="number"
@@ -27,8 +26,9 @@ const Card = ({ name, image, attributes, values, onDelete, onChange, isEditable 
                 <span>{values[index]}</span>
               )}
             </label>
-          </div>
-        ))}
+          ))}
+        </div>
+        <h2 className="card-name">{name}</h2>
       </div>
     </div>
   );

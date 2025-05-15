@@ -29,8 +29,8 @@ const ShowDecks = () => {
             <Link to={`/deck/${deck.id}`}>
               {deck.name.name || deck.name}
             </Link>
-            <button onClick={() => handleDeleteDeck(deck.id)}>Delete</button>
             <button onClick={() => navigate(`/edit/${deck.id}`)}>Edit</button>
+            <button onClick={() => handleDeleteDeck(deck.id)}>Delete</button>
           </li>
         ))}
       </ul>

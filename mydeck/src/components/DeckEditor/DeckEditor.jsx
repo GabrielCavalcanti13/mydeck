@@ -190,7 +190,7 @@ const DeckEditor = () => {
       
       <h3>Cartas</h3>
       <div className="cards-container">
-      {deck?.cards?.map((card, index) => (
+      {editedCards.map((card, index) => (
         <Card
           key={index}
           name={card.name}

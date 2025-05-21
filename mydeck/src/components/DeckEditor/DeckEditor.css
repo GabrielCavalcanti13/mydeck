@@ -1,12 +1,68 @@
-.editable-title {
+.deck-editor-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+  }
+  
+  .deck-editor-container h1,
+  .deck-editor-container h2,
+  .deck-editor-container h3 {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  .cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+  
+  input[type="text"],
+  .add-attributes input[type="number"],
+  input[type="file"] {
+    width: 100%;
+    max-width: 300px;
+    padding: 0.5rem;
+    margin: 0.5rem 0;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+  }
+  
+  button {
+    padding: 0.5rem 1rem;
+    margin: 0.5rem 0.5rem 1rem 0;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  button:hover {
+    background-color: #357abd;
+  }
+  
+  
+  .editable-title {
     cursor: pointer;
     position: relative;
     display: inline-block;
     transition: color 0.3s ease;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
   }
   
   .editable-title:hover {
-    color: #007bff; 
+    color: #007bff;
   }
   
   .editable-title::after {
@@ -20,5 +76,10 @@
   
   .editable-title:hover::after {
     opacity: 1;
+  }
+  
+  label {
+    display: block;
+    margin: 0.5rem 0 0.2rem;
   }
   

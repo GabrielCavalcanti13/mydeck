@@ -228,7 +228,7 @@ const DeckEditor = () => {
         onChange={(e) => setNewCard({ ...newCard, imageFile: e.target.files[0] })}
       />
       {deck.attributes.map((attr, index) => (
-        <div key={index}>
+        <div className="add-attributes" key={index}>
           <label>
             {attr}:{" "}
             <input

@@ -1,0 +1,24 @@
+.editable-title {
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    transition: color 0.3s ease;
+  }
+  
+  .editable-title:hover {
+    color: #007bff; 
+  }
+  
+  .editable-title::after {
+    content: " ✎";
+    font-size: 0.8em;
+    color: #999;
+    opacity: 0;
+    margin-left: 8px;
+    transition: opacity 0.2s ease;
+  }
+  
+  .editable-title:hover::after {
+    opacity: 1;
+  }
+  

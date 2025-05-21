@@ -11,6 +11,7 @@ const DeckEditor = () => {
   const [deck, setDeck] = useState(null);
   const [editedCards, setEditedCards] = useState([]);
   const [newCard, setNewCard] = useState({ name: "", imageFile: null, values: [] });
+  const [isEditingName, setIsEditingName] = useState(false);
 
   useEffect(() => {
     const fetchDeck = async () => {
@@ -40,20 +41,13 @@ const DeckEditor = () => {
     setEditedCards(updated);
   };  
   
-  const handleSaveEditedCards = async () => {
+  const handleSaveDeck = async () => {
     await updateDeck(deck.id, {
       attributes: deck.attributes,
       cards: editedCards,
     });
   
     alert("Deck atualizado com sucesso!");
-  };
-   
-  const handleSaveName = async () => {
-    if (deck) {
-      await updateDeck(deck.id, { name: deck.name });
-      alert("Nome do deck atualizado!");
-    }
   };
 
   const handleRemoveAttribute = (attrIndexToRemove) => {
@@ -121,6 +115,14 @@ const DeckEditor = () => {
       cards: updatedCards,
     }));
   };
+
+  const handleSaveNameAndExit = async () => {
+    if (deck) {
+      await updateDeck(deck.id, { name: deck.name });
+      setIsEditingName(false);
+    }
+  };
+  
   
 
   if (!deck) return <p>Carregando deck...</p>;
@@ -128,13 +130,33 @@ const DeckEditor = () => {
   return (
     <div className="deck-editor-container">
       <button onClick={() => navigate("/decks/show")}>Voltar</button>
+      <button onClick={handleSaveDeck}>Salvar Decks</button>
       <h2>Editor de Deck</h2>
 
-      <label>
-        Nome do Deck:
-        <input type="text" value={deck.name} onChange={handleNameChange} />
-        <button onClick={handleSaveName}>Salvar</button>
-      </label>
+      <div>
+        {isEditingName ? (
+          <div>
+            <input
+              type="text"
+              value={deck.name}
+              onChange={handleNameChange}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleSaveNameAndExit();
+              }}
+              autoFocus
+            />
+            <button onClick={handleSaveNameAndExit}>Salvar</button>
+          </div>
+        ) : (
+          <h1
+            className="editable-title"
+            onClick={() => setIsEditingName(true)}
+          >
+            {deck.name}
+          </h1>
+        )}
+      </div>
+
 
       <h3>Atributos do Deck</h3>
       {deck.attributes.map((attr, index) => (
@@ -175,18 +197,6 @@ const DeckEditor = () => {
           Adicionar Atributo
         </button>
       )}
-
-      <button
-        onClick={async () => {
-          await updateDeck(deck.id, {
-            attributes: deck.attributes,
-            cards: editedCards,
-          });
-          alert("Atributos atualizados!");
-        }}
-      >
-        Salvar Atributos
-      </button>
       
       <h3>Cartas</h3>
       <div className="cards-container">
@@ -202,9 +212,6 @@ const DeckEditor = () => {
           onChange={(attrIndex, value) => handleCardAttributeChange(index, attrIndex, value)}
         />
       ))}
-
-      <button onClick={handleSaveEditedCards}>Salvar Alterações nas Cartas</button>
-
 
       </div>
 

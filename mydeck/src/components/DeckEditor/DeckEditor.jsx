@@ -235,7 +235,7 @@ const DeckEditor = () => {
               type="number"
               value={newCard.values[index]}
               onChange={(e) => handleAttributeChange(index, e.target.value)}
-              placeholder={`${attr}`}
+              placeholder={`0`}
             />
           </label>
         </div>

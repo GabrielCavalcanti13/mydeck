@@ -11,6 +11,7 @@ const Card = ({ name, image, attributes, values, onDelete, onChange, isEditable 
       )}
       <div className="card-image-wrapper">
         <img src={image} alt={name} />
+        <h2 className="card-name">{name}</h2>
         <div className="attributes-overlay">
           {attributes.map((attr, index) => (
             <label key={index}>
@@ -28,7 +29,6 @@ const Card = ({ name, image, attributes, values, onDelete, onChange, isEditable 
             </label>
           ))}
         </div>
-        <h2 className="card-name">{name}</h2>
       </div>
     </div>
   );

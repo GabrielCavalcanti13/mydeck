@@ -91,6 +91,8 @@ const DeckEditor = () => {
         cards: [...(prevDeck?.cards || []), card],
       }));
 
+      setEditedCards((prevCards) => [...prevCards, card]);
+
       setNewCard({
         name: "",
         imageFile: null,
@@ -114,6 +116,8 @@ const DeckEditor = () => {
       ...prevDeck,
       cards: updatedCards,
     }));
+
+    setEditedCards(updatedCards);
   };
 
   const handleSaveNameAndExit = async () => {
@@ -130,7 +134,7 @@ const DeckEditor = () => {
   return (
     <div className="deck-editor-container">
       <button onClick={() => navigate("/decks/show")}>Voltar</button>
-      <button onClick={handleSaveDeck}>Salvar Decks</button>
+      <button onClick={handleSaveDeck}>Salvar Deck</button>
       <h2>Editor de Deck</h2>
 
       <div>

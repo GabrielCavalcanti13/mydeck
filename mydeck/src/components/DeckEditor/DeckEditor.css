@@ -83,3 +83,29 @@
     margin: 0.5rem 0 0.2rem;
   }
   
+  .attribute-inputs-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .attribute-input {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100px;
+  }
+  
+  .attribute-input label {
+    font-size: 0.85rem;
+    margin-bottom: 0.25rem;
+  }
+  
+  .attribute-input input[type="number"] {
+    width: 100%;
+    padding: 0.3rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  

@@ -231,19 +231,20 @@ const DeckEditor = () => {
         accept="image/*"
         onChange={(e) => setNewCard({ ...newCard, imageFile: e.target.files[0] })}
       />
-      {deck.attributes.map((attr, index) => (
-        <div className="add-attributes" key={index}>
-          <label>
-            {attr}:{" "}
+      <div className="attribute-inputs-row">
+        {deck.attributes.map((attr, index) => (
+          <div className="attribute-input" key={index}>
+            <label>{attr}</label>
             <input
               type="number"
               value={newCard.values[index]}
               onChange={(e) => handleAttributeChange(index, e.target.value)}
-              placeholder={`0`}
+              placeholder="0"
+              min="0"
             />
-          </label>
-        </div>
+          </div>
         ))}
+      </div>
       <button onClick={handleAddCard}>Adicionar Carta</button>
     </div>
   );

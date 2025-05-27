@@ -133,8 +133,10 @@ const DeckEditor = () => {
 
   return (
     <div className="deck-editor-container">
-      <button onClick={() => navigate("/decks/show")}>Voltar</button>
-      <button onClick={handleSaveDeck}>Salvar Deck</button>
+      <div className="menu">
+        <button onClick={() => navigate("/decks/show")}>Voltar</button>
+        <button onClick={handleSaveDeck}>Salvar Deck</button>
+      </div>
       <h2>Editor de Deck</h2>
 
       <div>
@@ -163,27 +165,30 @@ const DeckEditor = () => {
 
 
       <h3>Atributos do Deck</h3>
-      {deck.attributes.map((attr, index) => (
-        <div key={index} style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-          <input
-            type="text"
-            value={attr}
-            onChange={(e) => {
-              const newAttributes = [...deck.attributes];
-              newAttributes[index] = e.target.value;
-              setDeck((prevDeck) => ({ ...prevDeck, attributes: newAttributes }));
-            }}
-          />
-          {deck.attributes.length > 3 && (
-            <button
-              type="button"
-              onClick={() => {handleRemoveAttribute(index)}}
-            >
-              Remover
-            </button>
-          )}
-        </div>
-      ))}
+      <div className="attributes-list">
+        {deck.attributes.map((attr, index) => (
+          <div className="attribute-item" key={index}>
+            <input
+              type="text"
+              value={attr}
+              onChange={(e) => {
+                const newAttributes = [...deck.attributes];
+                newAttributes[index] = e.target.value;
+                setDeck((prevDeck) => ({ ...prevDeck, attributes: newAttributes }));
+              }}
+            />
+            {deck.attributes.length > 3 && (
+              <button
+                type="button"
+                onClick={() => { handleRemoveAttribute(index); }}
+              >
+                Remover
+              </button>
+            )}
+          </div>
+        ))}
+      </div>
+
 
       {deck.attributes.length < 5 && (
         <button
@@ -219,33 +224,35 @@ const DeckEditor = () => {
 
       </div>
 
-      <h3>Adicionar Nova Carta</h3>
-      <input
-        type="text"
-        value={newCard.name}
-        onChange={(e) => setNewCard({ ...newCard, name: e.target.value })}
-        placeholder="Nome da carta"
-      />
-      <input
-        type="file"
-        accept="image/*"
-        onChange={(e) => setNewCard({ ...newCard, imageFile: e.target.files[0] })}
-      />
-      <div className="attribute-inputs-row">
-        {deck.attributes.map((attr, index) => (
-          <div className="attribute-input" key={index}>
-            <label>{attr}</label>
-            <input
-              type="number"
-              value={newCard.values[index]}
-              onChange={(e) => handleAttributeChange(index, e.target.value)}
-              placeholder="0"
-              min="0"
-            />
-          </div>
-        ))}
+      <div className="add-new-card">
+        <h3>Adicionar Nova Carta</h3>
+        <input
+          type="text"
+          value={newCard.name}
+          onChange={(e) => setNewCard({ ...newCard, name: e.target.value })}
+          placeholder="Nome da carta"
+        />
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(e) => setNewCard({ ...newCard, imageFile: e.target.files[0] })}
+        />
+        <div className="attribute-inputs-row">
+          {deck.attributes.map((attr, index) => (
+            <div className="attribute-input" key={index}>
+              <label>{attr}</label>
+              <input
+                type="number"
+                value={newCard.values[index]}
+                onChange={(e) => handleAttributeChange(index, e.target.value)}
+                placeholder="0"
+                min="0"
+              />
+            </div>
+          ))}
+        </div>
+        <button onClick={handleAddCard}>Adicionar Carta</button>
       </div>
-      <button onClick={handleAddCard}>Adicionar Carta</button>
     </div>
   );
 };

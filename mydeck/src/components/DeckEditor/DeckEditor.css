@@ -1,111 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #1f1f1f;
+  color: #f0f0f0;
+}
+
 .deck-editor-container {
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 2rem;
-    background-color: #f9f9f9;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    font-family: Arial, sans-serif;
-  }
-  
-  .deck-editor-container h1,
-  .deck-editor-container h2,
-  .deck-editor-container h3 {
-    text-align: center;
-    margin-bottom: 1rem;
-  }
-  
-  .cards-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    justify-content: center;
-    margin-bottom: 2rem;
-  }
-  
-  input[type="text"],
-  .add-attributes input[type="number"],
-  input[type="file"] {
-    width: 100%;
-    max-width: 300px;
-    padding: 0.5rem;
-    margin: 0.5rem 0;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    box-sizing: border-box;
-  }
-  
-  button {
-    padding: 0.5rem 1rem;
-    margin: 0.5rem 0.5rem 1rem 0;
-    background-color: #4a90e2;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-  }
-  
-  button:hover {
-    background-color: #357abd;
-  }
-  
-  
-  .editable-title {
-    cursor: pointer;
-    position: relative;
-    display: inline-block;
-    transition: color 0.3s ease;
-    font-size: 1.5rem;
-    font-weight: bold;
-    text-align: center;
-  }
-  
-  .editable-title:hover {
-    color: #007bff;
-  }
-  
-  .editable-title::after {
-    content: " ✎";
-    font-size: 0.8em;
-    color: #999;
-    opacity: 0;
-    margin-left: 8px;
-    transition: opacity 0.2s ease;
-  }
-  
-  .editable-title:hover::after {
-    opacity: 1;
-  }
-  
-  label {
-    display: block;
-    margin: 0.5rem 0 0.2rem;
-  }
-  
-  .attribute-inputs-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-bottom: 1rem;
-  }
-  
-  .attribute-input {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100px;
-  }
-  
-  .attribute-input label {
-    font-size: 0.85rem;
-    margin-bottom: 0.25rem;
-  }
-  
-  .attribute-input input[type="number"] {
-    width: 100%;
-    padding: 0.3rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #2a2a2a;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+}
+
+h1, h2, h3 {
+  text-align: center;
+  color: #00c2ff;
+  margin-bottom: 1.2rem;
+}
+
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+input[type="text"],
+input[type="file"],
+.add-attributes input[type="number"] {
+  background-color: #3a3a3a;
+  color: #fff;
+  border: 1px solid #555;
+  padding: 0.6rem;
+  border-radius: 8px;
+  margin: 0.4rem 0;
+  width: 100%;
+  max-width: 280px;
+  box-sizing: border-box;
+}
+
+input[type="text"]::placeholder,
+input[type="number"]::placeholder {
+  color: #bbb;
+}
+
+button {
+  padding: 0.6rem 1.2rem;
+  margin: 0.5rem 0.5rem 1rem 0;
+  background: linear-gradient(to right, #00c2ff, #0077ff);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 12px #00c2ff88;
+}
+
+.editable-title {
+  cursor: pointer;
+  display: inline-block;
+  transition: color 0.3s ease;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.editable-title:hover {
+  color: #00c2ff;
+}
+
+.editable-title::after {
+  content: " ✎";
+  font-size: 0.9em;
+  color: #aaa;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  margin-left: 8px;
+}
+
+.editable-title:hover::after {
+  opacity: 1;
+}
+
+.attribute-inputs-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.attribute-input {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 120px;
+}
+
+.attribute-input label {
+  font-size: 0.85rem;
+  margin-bottom: 0.25rem;
+}
+
+label {
+  display: block;
+  font-size: 0.85rem;
+  color: #ccc;
+  margin: 0.5rem 0 0.2rem;
+}
